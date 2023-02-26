@@ -1,0 +1,30 @@
+﻿  SortingManager.cpp
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(71,31): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(83,15): warning C4244: 'argumento': conversão de 'time_t' para 'unsigned int', possível perda de dados
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(91,56): warning C4244: 'argumento': conversão de 'int' para 'T', possível perda de dados
+          with
+          [
+              T=float
+          ]
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(94,65): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(94,36): warning C4244: 'argumento': conversão de 'int' para 'float', possível perda de dados
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(103,23): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(114,92): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(114,136): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(133,31): warning C4244: '=': conversão de 'int' para 'T', possível perda de dados
+          with
+          [
+              T=float
+          ]
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(136,32): warning C4244: '=': conversão de 'int' para 'T', possível perda de dados
+          with
+          [
+              T=float
+          ]
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(155,107): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(155,156): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(160,59): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(160,92): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(173,23): warning C4018: '<': incompatibilidade de signed/unsigned
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\SortingManager.cpp(175,29): warning C4018: '<': incompatibilidade de signed/unsigned
+  SortingAlgorithms.vcxproj -> C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\Debug\SortingAlgorithms.exe
