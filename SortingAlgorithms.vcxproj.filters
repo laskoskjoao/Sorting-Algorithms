@@ -21,9 +21,15 @@
     <ClCompile Include="SortingManager.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Sorting.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SortingManager.h">
+      <Filter>Arquivos de Origem</Filter>
+    </ClInclude>
+    <ClInclude Include="Sorting.h">
       <Filter>Arquivos de Origem</Filter>
     </ClInclude>
   </ItemGroup>

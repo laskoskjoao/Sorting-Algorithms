@@ -134,9 +134,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Sorting.cpp" />
     <ClCompile Include="SortingManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sorting.h" />
     <ClInclude Include="SortingManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
