@@ -2,12 +2,12 @@
 #include <thread>
 
 #define HEIGHT_WINDOW 600
-#define WIDTH_WINDOW 1800
+#define WIDTH_WINDOW 800
 
 #define DELAY 2   //microsegundos
 
 
-SortingManager::SortingManager ():endSort(false), lastIndexesSwap(-1,-1), lastInsertedIndex(-1), comparisons(0), swaps(0), lastElementsCompared(-1, -1),
+SortingManager::SortingManager ():endSorting(false), lastIndexesSwap(-1,-1), lastInsertedIndex(-1), comparisons(0), swaps(0), lastViewedElement(-1), lastElementsCompared(-1, -1),
 window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "Sorting Algorithms") {
     menu();
 }
@@ -43,10 +43,13 @@ void SortingManager::menu() {
     std::cin >> size;
     
     std::cout << "\nChoose the algorithm: " << std::endl;
-    std::cout << "\t0. Selection Sort" << std::endl;
-    std::cout << "\t1. Bubble Sort" << std::endl;
-    std::cout << "\t2. Insertion Sort" << std::endl;
-    std::cout << "\t3. Merge Sort" << std::endl;
+    std::cout << "\t0. Selection Sort\tO(n^2)" << std::endl;
+    std::cout << "\t1. Bubble Sort\t\tO(n^2)" << std::endl;
+    std::cout << "\t2. Insertion Sort\tO(n^2)" << std::endl;
+    std::cout << "\t3. My Sort\t\tO(n^2)" << std::endl;
+    std::cout << "\t4. Merge Sort\t\tO(n*logn)" << std::endl;
+    std::cout << "\t5. Quick Sort\t\tO(n*logn) - Average performance" << std::endl;
+    std::cout << "\t6. Couting Sort\t\tO(n)" << std::endl;
 
     std::cout << "\nInput: ";
 
@@ -54,7 +57,16 @@ void SortingManager::menu() {
     std::cin >> aux;
     algorithm = (Algorithm) aux;
 
+
+    for (int i = 0; i < elements.size(); i++) { //Uma forma mais eficiente seria liberara a memoria de uma posicao e ja dar erase da posicao no vector.
+        if (elements[i].second)
+            delete elements[i].second;
+    }
+    elements.clear();
+    //Limpa vetor
+
     generateData();
+
 
     if (algorithm == Selection) {
         sort = new std::thread(&SortingManager::selectionSort, this);
@@ -65,10 +77,20 @@ void SortingManager::menu() {
     else if (algorithm == Insertion) {
         sort = new std::thread(&SortingManager::insertionSort, this);
     }
+    else if (algorithm == My) {
+        sort = new std::thread(&SortingManager::mySort, this);
+    }
     else if (algorithm == Merge) {
         sort = new std::thread(&SortingManager::mergeSort, this, 0, size-1);
     }
-    endSort = false;
+    else if (algorithm == Quick) {
+        sort = new std::thread(&SortingManager::quickSort, this, 0, size - 1);
+    }
+    else if (algorithm == Couting) {
+        sort = new std::thread(&SortingManager::coutingSort, this);
+    }
+
+    endSorting = false;
 
     system("cls");
 
@@ -87,7 +109,7 @@ void SortingManager::selectionSort() {
         if (minIndex != i)
             swap(minIndex, i);
     }
-    endSort = true;
+    endSorting = true;
 }
 
 void SortingManager::bubbleSort() {
@@ -98,7 +120,7 @@ void SortingManager::bubbleSort() {
                 swap(j - 1, j);
         }
     }
-    endSort = true;
+    endSorting = true;
 }
 
 void SortingManager::insertionSort() {
@@ -108,7 +130,7 @@ void SortingManager::insertionSort() {
             swap(j - 1, j);
         }
     }
-    endSort = true;
+    endSorting = true;
 }
 
 void SortingManager::mergeSort(int begin, int end) {
@@ -122,7 +144,7 @@ void SortingManager::mergeSort(int begin, int end) {
 
     /*Atualiza endSort*/
     if (begin == 0 && end == elements.size() - 1) {
-        endSort = true;
+        endSorting = true;
     }
 }
 
@@ -165,15 +187,86 @@ void SortingManager::merge(int begin, int middle, int end) {
     }
 }
 
-void SortingManager::differentSort() {
+void SortingManager::quickSort(int begin, int end) {
+    int pivot = begin;
+
+    if (end > begin) {
+        for (int i = begin + 1; i < end+1; i++) {
+            compareElements(i,pivot);
+            if (elements[i].first < elements[pivot].first) {        //encontrou um elemento menor que o pivot, logo o elemento menor precisa passar a frente do pivot
+                if (i > pivot + 1)
+                    swap(pivot + 1, i);     //trás o elemento menor para o lado do pivot                     
+                swap(pivot, pivot + 1);
+                pivot++;
+            }
+        }
+        quickSort(begin, pivot - 1);
+        quickSort(pivot + 1, end);
+    }
+
+    /*Atualiza endSort*/
+    if (begin == 0 && end == elements.size() - 1) {
+        endSorting = true;
+    }
+}
+
+void SortingManager::coutingSort() {
+    /*Encontrando o maior valor do vetor*/
+    int max = 0;
     for (int i = 0; i < elements.size(); i++) {
+        viewElement(i);
+        if (elements[i].first > max)
+            max = elements[i].first;
+    }
+
+    /*Contando os elementos*/
+    std::vector<int> count(max+1);
+    for (int i = 0; i < elements.size(); i++) {
+        count[elements[i].first] ++;
+    }
+
+    for (int i = 1; i < count.size(); i++) {
+        count[i] += count[i - 1];
+    }
+
+    std::vector<std::pair<int, sf::RectangleShape*>> sorted(elements.size());
+    for (int i = 0; i < elements.size(); i++) {
+        sorted[count[elements[i].first]-1] = elements[i];   //indice correto do elements[i].first
+        count[elements[i].first] --;
+    }
+
+    for (int i = 0; i < elements.size(); i++) {
+        insert(i, sorted[i]);
+    }
+
+    endSorting = true;
+}
+
+void SortingManager::mySort() {
+    for (int i = 0; i < elements.size()/2; i++) {
         for (int j = i + 1; j < elements.size(); j++) {
             compareElements(i, j);
             if (elements[i].first > elements[j].first)
                 swap(i, j);
         }
     }
-    endSort = true;
+ 
+    invertedInsertionSort(elements.size()/2);
+
+    /*inverte seunda parte*/
+    for (int i = elements.size() / 2; i < (elements.size() + elements.size() / 2)/2; i++) {
+        swap(i, elements.size() - (i - elements.size() / 2) - 1);
+    }
+    endSorting = true;
+}
+
+void SortingManager::invertedInsertionSort(int index) {
+    for (int i = elements.size() - 2; i >= index; i--) {
+        for (int j = i; j < elements.size()-1 && elements[j].first < elements[j+1].first; j++) {
+            compareElements(j + 1, j);
+            swap(j + 1, j);
+        }
+    }
 }
 
 //Funções auxiliares dos algoritmos
@@ -252,6 +345,20 @@ void SortingManager::insert(int index, std::pair<int, sf::RectangleShape*> eleme
     }
 }
 
+void SortingManager::viewElement(int index) {
+    /*Atualiza a cor*/
+    if (lastViewedElement > -1 && lastViewedElement < elements.size()) {
+        elements[lastViewedElement].second->setFillColor(sf::Color::White);
+    }
+
+    if (index > -1 && index < elements.size()) {
+        elements[index].second->setFillColor(sf::Color::Blue);
+        lastViewedElement = index;
+    }
+
+    std::this_thread::sleep_for(std::chrono::microseconds(DELAY));
+}
+
 void SortingManager::compareElements(int firstIndex, int secondIndex) {
     if (lastElementsCompared.first > -1 && lastElementsCompared.second > -1 && lastElementsCompared.first < elements.size() && lastElementsCompared.second < elements.size()) {
         elements[lastElementsCompared.first].second->setFillColor(sf::Color::White);
@@ -271,6 +378,13 @@ void SortingManager::compareElements(int firstIndex, int secondIndex) {
     std::this_thread::sleep_for(std::chrono::microseconds(DELAY)); //atraso para visualização
 }
 
+void SortingManager::endSort() {
+    for (int i = 0; i < elements.size(); i++) {
+        elements[i].second->setFillColor(sf::Color::Green);
+    }
+    draw();
+}
+
 /*Gerência da janela*/
 void SortingManager::mainLoop() {
     //int i = 1;
@@ -284,7 +398,7 @@ void SortingManager::mainLoop() {
         }
         draw();
 
-        if (endSort) {
+        if (endSorting) {
             /*Deixa os elementos marcados em comparaçao com a cor branca*/
             //Libera memória
             std::cout << "Results" << std::endl;
@@ -292,6 +406,8 @@ void SortingManager::mainLoop() {
             std::cout << "\tSwaps = " << swaps << std::endl;
             comparisons = 0;
             swaps = 0;
+
+            endSort();
 
             for (int i = 0; i < elements.size(); i++) { //Uma forma mais eficiente seria liberara a memoria de uma posicao e ja dar erase da posicao no vector.
                 if (elements[i].second)
