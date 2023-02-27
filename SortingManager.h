@@ -13,7 +13,7 @@ enum Algorithm {
 	My,
 	Merge,
 	Quick,
-	Couting
+	Counting
 };
 
 class SortingManager {
@@ -38,7 +38,7 @@ private:
 	void mergeSort(int begin, int end);
 		void merge(int begin, int middle, int end);
 	void quickSort(int begin, int end);
-	void coutingSort();
+	void countingSort();
 	void mySort();
 		void invertedInsertionSort(int index);
 	

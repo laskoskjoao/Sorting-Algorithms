@@ -49,7 +49,7 @@ void SortingManager::menu() {
     std::cout << "\t3. My Sort\t\tO(n^2)" << std::endl;
     std::cout << "\t4. Merge Sort\t\tO(n*logn)" << std::endl;
     std::cout << "\t5. Quick Sort\t\tO(n*logn) - Average performance" << std::endl;
-    std::cout << "\t6. Couting Sort\t\tO(n)" << std::endl;
+    std::cout << "\t6. Counting Sort\tO(n)" << std::endl;
 
     std::cout << "\nInput: ";
 
@@ -86,8 +86,8 @@ void SortingManager::menu() {
     else if (algorithm == Quick) {
         sort = new std::thread(&SortingManager::quickSort, this, 0, size - 1);
     }
-    else if (algorithm == Couting) {
-        sort = new std::thread(&SortingManager::coutingSort, this);
+    else if (algorithm == Counting) {
+        sort = new std::thread(&SortingManager::countingSort, this);
     }
 
     endSorting = false;
@@ -210,7 +210,7 @@ void SortingManager::quickSort(int begin, int end) {
     }
 }
 
-void SortingManager::coutingSort() {
+void SortingManager::countingSort() {
     /*Encontrando o maior valor do vetor*/
     int max = 0;
     for (int i = 0; i < elements.size(); i++) {

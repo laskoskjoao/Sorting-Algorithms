@@ -1,1 +1,2 @@
 C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\SortingAlgorithms\Debug\SortingAlgorithms.exe
+C:\Users\João\Desktop\Estudo\1 MGC\Mini Projetos (C++)\Sorting-Algorithms\Debug\SortingAlgorithms.exe
