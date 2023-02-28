@@ -25,6 +25,6 @@ valor entre 1 - 400). Caso seja necessário, pode-se alterar o tamanho da janela
 
 Ao final da ordenação, o programa ainda exibe informações do processo: Número de trocas (swaps) e Número de comparações (comparisons), que no decorrer da ordenação são representados pelas cores vermelha e azul, respectivamente.
 
-## :question: Como executar
+## :question: Como testar
 
 O programa foi desenvolvido utilizando a biblioteca gráfica SFML 2.5.1 (versão 32 bits), portanto é necessário [baixá-la](https://www.sfml-dev.org/download/sfml/2.5.1/) e adicioná-la ao projeto para que seja possível depurar o programa. O processo para adicionar a biblioteca se encontra descrito detalhadamente no site da [biblioteca](https://www.sfml-dev.org/tutorials/2.5/#getting-started).
