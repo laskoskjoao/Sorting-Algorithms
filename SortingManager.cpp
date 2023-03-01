@@ -4,9 +4,8 @@
 #define HEIGHT_WINDOW 600
 #define WIDTH_WINDOW 800
 
-SortingManager::SortingManager (): window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "Sorting Algorithms") {
-    sorting = new Sorting(WIDTH_WINDOW, HEIGHT_WINDOW);
-    sort = std::thread(&Sorting::run, sorting);
+SortingManager::SortingManager (): sorting(WIDTH_WINDOW, HEIGHT_WINDOW), window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "Sorting Algorithms") {
+    sort = std::thread(&Sorting::run, &sorting);
 
     /*Carregando fonte*/
     sf::Font font;
@@ -14,7 +13,6 @@ SortingManager::SortingManager (): window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WIN
     {
         std::cout << "ERROR: Unable to initialize texts.";
     }
-
 
     /*Inicializando os textos*/
 
@@ -35,8 +33,7 @@ SortingManager::SortingManager (): window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WIN
 }
 
 SortingManager::~SortingManager() {
-    sorting->endExecution();
-    delete sorting;
+    sorting.endExecution();
 }
 
 /*Coleta de entradas (algoritmo + tamanho)*/
@@ -64,34 +61,12 @@ void SortingManager::menu() {
     algorithm = (Algorithm) aux;
 
 
-    sorting->clearElements();
+    sorting.clearElements();
     //Limpa vetor
 
-    sorting->generateData(size);
-    sorting->setAlgorithm(algorithm);
-    sorting->startSorting();
-
-    /*if (algorithm == Selection) {
-        
-    }
-    else if (algorithm == Bubble) {
-        sort = new std::thread(&SortingManager::bubbleSort, this);
-    }
-    else if (algorithm == Insertion) {
-        sort = new std::thread(&SortingManager::insertionSort, this);
-    }
-    else if (algorithm == My) {
-        sort = new std::thread(&SortingManager::mySort, this);
-    }
-    else if (algorithm == Merge) {
-        sort = new std::thread(&SortingManager::mergeSort, this, 0, size-1);
-    }
-    else if (algorithm == Quick) {
-        sort = new std::thread(&SortingManager::quickSort, this, 0, size - 1);
-    }
-    else if (algorithm == Counting) {
-        sort = new std::thread(&SortingManager::countingSort, this);
-    }*/
+    sorting.generateData(size);
+    sorting.setAlgorithm(algorithm);
+    sorting.startSorting();
 
     system("cls");
 
@@ -111,16 +86,19 @@ void SortingManager::mainLoop() {
         }
         draw();
 
-        if (sorting->getEndSorting()) {
+        if (sorting.getEndSorting()) {
             /*Deixa os elementos marcados em comparaçao com a cor branca*/
             //Libera memória
             std::cout << "Results" << std::endl;
-            std::cout << "\tComparisons = " << sorting->getTotalComparisons() << std::endl;
-            std::cout << "\tSwaps = " << sorting->getTotalSwaps() << std::endl;
-            sorting->reset();
+            std::cout << "\tComparisons = " << sorting.getTotalComparisons() << std::endl;
+            std::cout << "\tSwaps = " << sorting.getTotalSwaps() << std::endl;
+            
+            lastComparisons = sorting.getTotalComparisons();    //serve para atualizar corretamente o valor no texto da janela.
+            lastSwaps = sorting.getTotalSwaps();                //serve para atualizar corretamente o valor no texto da janela.
 
-            draw();
-            //endSort();
+            sorting.reset();
+
+            draw(); 
 
             //Limpa vetor
             menu();
@@ -129,15 +107,21 @@ void SortingManager::mainLoop() {
 }
 
 void SortingManager::draw() {
-    std::vector<std::pair<int, sf::RectangleShape*>> elements = sorting->getElements();
+    std::vector<std::pair<int, sf::RectangleShape*>> elements = sorting.getElements();
     window.clear();
     for (int i = 0; i < elements.size(); i++) {
-        window.draw(*sorting->getElements()[i].second);
+        window.draw(*sorting.getElements()[i].second);
     }
 
-    if (!sorting->getEndSorting() && algorithm != Heap) {       //Nao exibe informacoes do Heap pois a estrutura heap utilizada no momento é da biblioteca STL, portanto nao sao obtidas informacoes de comparacoes e trocas na manipulação da estrutura
-        swapsText.setString("Swaps = " + std::to_string(sorting->getTotalSwaps()));
-        comparisonsText.setString("Comparisons = " + std::to_string(sorting->getTotalComparisons()));
+    if (algorithm != Heap) {    //Nao exibe informacoes do Heap pois a estrutura heap utilizada no momento é da biblioteca STL, portanto nao sao obtidas informacoes de comparacoes e trocas na manipulação da estrutura
+        if (!sorting.getEndSorting()) {
+            swapsText.setString("Swaps = " + std::to_string(sorting.getTotalSwaps()));
+            comparisonsText.setString("Comparisons = " + std::to_string(sorting.getTotalComparisons()));
+        }
+        else {
+            swapsText.setString("Swaps = " + std::to_string(lastSwaps));
+            comparisonsText.setString("Comparisons = " + std::to_string(lastComparisons));
+        }
     }
 
     window.draw(swapsText);         //desenha o texto que exibe informacoes de swaps

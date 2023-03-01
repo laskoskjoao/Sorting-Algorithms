@@ -170,7 +170,7 @@ O algoritmo é composto por duas partes:
     1- A primeira é uma derivação do selection sort, no entanto, para cada elemento encontrado menor que o elemento da posição a ser ordenada, o algoritmo realiza
     o swap entre eles. Com isso, o restante do conjunto a ser ordenado cria um padrão de "parcial ordenação invertida" (fica mais claro ao executa-lo neste programa).
 
-    2- Com o padrão criado na primeira parte, ao chegar na metade do conjunto de dados, o algoritmo utiliza um insertion sort invertido na segunda parte. ordenando 
+    2- Com o padrão criado na primeira parte, ao chegar na metade do conjunto de dados, o algoritmo utiliza um insertion sort invertido na segunda parte, ordenando 
     assim a segunda parte em ordem decrescente. O insertion sort invertido foi utilizado aqui pois existe um certo padrão de ordenação citado no item 1.
 
     3- O algoritmo finaliza a ordenação invertendo as posições da segunda metado do conjunto.
@@ -193,7 +193,7 @@ void Sorting::swapSort() {
     endSorting = true;
 }
 
-/*Algoritmo do shell sort retirado de: https://pt.wikipedia.org/wiki/Shell_sort#C%C3%B3digo_em_C++11*/
+/*Algoritmo do shell sort retirado de: https://pt.wikipedia.org/wiki/Shell_sort#C%C3%B3digo_em_C++11 */
 void Sorting::shellSort() {
     int h = 1;
     int i, j;
@@ -237,10 +237,10 @@ void Sorting::mergeSort(int begin, int end) {
 }
 
 void Sorting::merge(int begin, int middle, int end) {
-    std::vector<std::pair<int, sf::RectangleShape*>> aux(end - begin + 1);        //guarda os indices na ordenação correta considerando os valores dos dos elementos (útil para fazer os swaps posteriormente)
+    std::vector<std::pair<int, sf::RectangleShape*>> aux(end - begin + 1);        //guarda os indices na ordenação correta considerando os valores dos elementos (útil para fazer os swaps posteriormente)
 
     int i = begin;      //contador para a primeira parte
-    int j = middle + 1;   //contador para a segunda parte
+    int j = middle + 1; //contador para a segunda parte
     int k = 0;          //contador para o vetor auxiliar
 
     while (i <= middle && j < end + 1)
@@ -283,7 +283,7 @@ void Sorting::quickSort(int begin, int end) {
             compareElements(i, pivot);
             if (elements[i].first < elements[pivot].first) {        //encontrou um elemento menor que o pivot, logo o elemento menor precisa passar a frente do pivot
                 if (i > pivot + 1)
-                    swap(pivot + 1, i);     //trás o elemento menor para o lado do pivot                     
+                    swap(pivot + 1, i);     //traz o elemento menor para o lado do pivot                     
                 swap(pivot, pivot + 1);
                 pivot++;
             }
@@ -307,8 +307,6 @@ void Sorting::heapSort() {
         std::pop_heap(elements.begin(), elements.end() - i);
         insert(elements.size() - 1 - i, element);
         updateAllPositions();
-        //elements[0] <-> elements[i]
-        //maxHeapify(0,i)
     }
 }
 
@@ -363,40 +361,37 @@ void Sorting::swap(int firstIndex, int secondIndex) {
         elements[lastIndexesSwap.second].second->setFillColor(sf::Color::White);
     }
 
-    //cor vermelha para os elementos trocados
-    elements[firstIndex].second->setFillColor(sf::Color::Red);
-    elements[secondIndex].second->setFillColor(sf::Color::Red);
+    if (firstIndex > -1 && secondIndex > -1 && firstIndex < elements.size() && secondIndex < elements.size()) {
+        //cor vermelha para os elementos trocados
+        elements[firstIndex].second->setFillColor(sf::Color::Red);
+        elements[secondIndex].second->setFillColor(sf::Color::Red);
 
-    /*swap*/
+        /*swap*/
 
-    //swap de elementos do vetor
-    std::pair<int, sf::RectangleShape*> aux = elements[firstIndex];
-    elements[firstIndex] = elements[secondIndex];
-    elements[secondIndex] = aux;
+        //swap de elementos do vetor
+        std::pair<int, sf::RectangleShape*> aux = elements[firstIndex];
+        elements[firstIndex] = elements[secondIndex];
+        elements[secondIndex] = aux;
 
-    //atualizando as posicoes dos rectangles shapes dos elementos
-    int elementWidth = width / elements.size();
-    sf::Vector2f posFirst = elements[firstIndex].second->getPosition();
-    posFirst.x = elementWidth * firstIndex;
+        //atualizando as posicoes dos rectangles shapes dos elementos
+        int elementWidth = width / elements.size();
+        sf::Vector2f posFirst = elements[firstIndex].second->getPosition();
+        posFirst.x = elementWidth * firstIndex;
 
-    sf::Vector2f posSecond = elements[secondIndex].second->getPosition();
-    posSecond.x = elementWidth * secondIndex;
+        sf::Vector2f posSecond = elements[secondIndex].second->getPosition();
+        posSecond.x = elementWidth * secondIndex;
 
-    elements[firstIndex].second->setPosition(posFirst);
-    elements[secondIndex].second->setPosition(posSecond);
-    /*
-    !!! NÃO ENTENDI PQ ISSO NAO FUNCIONOU PARA A TROCA DE POSIÇÕES:
-    sf::Vector2f auxPosition = elements[firstIndex].second->getPosition();
-    elements[firstIndex].second->setPosition(elements[secondIndex].second->getPosition());
-    elements[secondIndex].second->setPosition(auxPosition);*/
+        elements[firstIndex].second->setPosition(posFirst);
+        elements[secondIndex].second->setPosition(posSecond);
 
-    /*Atualizando lastIndexesSwap*/
-    lastIndexesSwap.first = firstIndex;
-    lastIndexesSwap.second = secondIndex;
+        /*Atualizando lastIndexesSwap*/
+        lastIndexesSwap.first = firstIndex;
+        lastIndexesSwap.second = secondIndex;
 
-    swaps++;
+        swaps++;
 
-    std::this_thread::sleep_for(std::chrono::microseconds(DELAY)); //atraso para visualização
+        std::this_thread::sleep_for(std::chrono::microseconds(DELAY)); //atraso para visualização
+    }
 }
 
 void Sorting::insert(int index, std::pair<int, sf::RectangleShape*> element) {
@@ -479,6 +474,5 @@ void Sorting::updateAllPositions() {
         position.x = elementWidth * i;
 
         elements[i].second->setPosition(position);
-
     }
 }

@@ -6,27 +6,17 @@
 #include <SFML/Graphics.hpp>
 #include <thread>
 #include "Sorting.h"
-/*
-enum Algorithm {
-	Selection,
-	Bubble,
-	Insertion,
-	My,
-	Merge,
-	Quick,
-	Counting
-};*/
 
 class SortingManager {
 private:
 	/*Dados*/
-	int comparisons;
-	int swaps;
+	int lastComparisons;
+	int lastSwaps;
 	//bool endSorting;
 	int size;
 	Algorithm algorithm;
 
-	Sorting* sorting;
+	Sorting sorting;
 	sf::Text swapsText;
 	sf::Text comparisonsText;
 

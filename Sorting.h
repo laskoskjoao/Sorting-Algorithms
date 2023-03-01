@@ -67,7 +67,7 @@ public:
 	Sorting(int width, int height);
 	~Sorting();
 
-	/*Gerencia da thread*/
+	/*Gerência da thread*/
 	void run();
 		void endExecution();
 
