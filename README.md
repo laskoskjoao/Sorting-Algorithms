@@ -23,8 +23,6 @@ valor entre 1 - 400). Caso seja necessário, pode-se alterar o tamanho da janela
 #define WIDTH_WINDOW 800
 ~~~
 
-Ao final da ordenação, o programa ainda exibe informações do processo: Número de trocas (swaps) e Número de comparações (comparisons), que no decorrer da ordenação são representados pelas cores vermelha e azul, respectivamente.
-
 ## :heavy_exclamation_mark: Observações
 
 No momento, o Heap Sort utiliza a estrutura de dados Heap fornecida pela biblioteca STL. Sendo assim, o algoritmo no processo de ordenação visual parece mais rápido que outros
