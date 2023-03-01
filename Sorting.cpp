@@ -36,14 +36,20 @@ void Sorting::run() {
                 insertionSort();
 				break;
 			case My:
-                mySort();
+                swapSort();
 				break;
+            case Shell:
+                shellSort();
+                break;
 			case Merge:
                 mergeSort(0,elements.size()-1);
 				break;
 			case Quick:
                 quickSort(0, elements.size() - 1);
 				break;
+            case Heap:
+                heapSort();
+                break;
 			case Counting:
                 countingSort();
 				break;
@@ -118,6 +124,7 @@ int Sorting::getTotalComparisons() {
 void Sorting::reset(){
     comparisons = 0;
     swaps = 0;
+    endSorting = true;
 }
 
 /*Algoritmos de ordenação*/
@@ -154,6 +161,64 @@ void Sorting::insertionSort() {
         }
     }
     endSorting = true;
+}
+
+/*O swapSort é um algoritmo de ordenação desenvolvido por João Victor Laskoski.
+O algoritmo não tem por objetivo ser eficiente. Ele serviu para testes durante o desenvolvimento deste projeto (https://github.com/laskoskjoao/Sorting-Algorithms)
+
+O algoritmo é composto por duas partes:
+    1- A primeira é uma derivação do selection sort, no entanto, para cada elemento encontrado menor que o elemento da posição a ser ordenada, o algoritmo realiza
+    o swap entre eles. Com isso, o restante do conjunto a ser ordenado cria um padrão de "parcial ordenação invertida" (fica mais claro ao executa-lo neste programa).
+
+    2- Com o padrão criado na primeira parte, ao chegar na metade do conjunto de dados, o algoritmo utiliza um insertion sort invertido na segunda parte. ordenando 
+    assim a segunda parte em ordem decrescente. O insertion sort invertido foi utilizado aqui pois existe um certo padrão de ordenação citado no item 1.
+
+    3- O algoritmo finaliza a ordenação invertendo as posições da segunda metado do conjunto.
+*/
+void Sorting::swapSort() {
+    for (int i = 0; i < elements.size() / 2; i++) {
+        for (int j = i + 1; j < elements.size(); j++) {
+            compareElements(i, j);
+            if (elements[i].first > elements[j].first)
+                swap(i, j);
+        }
+    }
+
+    invertedInsertionSort(elements.size() / 2);
+
+    /*inverte segunda parte*/
+    for (int i = elements.size() / 2; i < (elements.size() + elements.size() / 2) / 2; i++) {
+        swap(i, elements.size() - (i - elements.size() / 2) - 1);
+    }
+    endSorting = true;
+}
+
+/*Algoritmo do shell sort retirado de: https://pt.wikipedia.org/wiki/Shell_sort#C%C3%B3digo_em_C++11*/
+void Sorting::shellSort() {
+    int h = 1;
+    int i, j;
+    int rep = 0;
+
+    while (h < elements.size()) {
+        h = h * 3 + 1;
+    }
+
+    while (h > 1) {
+        h /= 3;
+
+        for (i = h; i < elements.size(); i++) {
+            std::pair<int, sf::RectangleShape*> aux = elements[i];
+            j = i;
+
+            while (j >= h && aux.first < elements[j - h].first) {
+                compareElements(j, j - h);
+                swap(j, j - h); //v[j] = v[j - h];
+                j -= h;
+                rep++;
+            }
+            insert(j, aux); //v[j] = aux;
+        }
+    }
 }
 
 void Sorting::mergeSort(int begin, int end) {
@@ -233,6 +298,20 @@ void Sorting::quickSort(int begin, int end) {
     }
 }
 
+void Sorting::heapSort() {
+    make_heap(elements.begin(), elements.end());
+    updateAllPositions();
+    
+    for (int i = 0; i < elements.size(); i++) {
+        std::pair<int, sf::RectangleShape*> element = elements[0];
+        std::pop_heap(elements.begin(), elements.end() - i);
+        insert(elements.size() - 1 - i, element);
+        updateAllPositions();
+        //elements[0] <-> elements[i]
+        //maxHeapify(0,i)
+    }
+}
+
 void Sorting::countingSort() {
     /*Encontrando o maior valor do vetor*/
     int max = 0;
@@ -262,24 +341,6 @@ void Sorting::countingSort() {
         insert(i, sorted[i]);
     }
 
-    endSorting = true;
-}
-
-void Sorting::mySort() {
-    for (int i = 0; i < elements.size() / 2; i++) {
-        for (int j = i + 1; j < elements.size(); j++) {
-            compareElements(i, j);
-            if (elements[i].first > elements[j].first)
-                swap(i, j);
-        }
-    }
-
-    invertedInsertionSort(elements.size() / 2);
-
-    /*inverte seunda parte*/
-    for (int i = elements.size() / 2; i < (elements.size() + elements.size() / 2) / 2; i++) {
-        swap(i, elements.size() - (i - elements.size() / 2) - 1);
-    }
     endSorting = true;
 }
 
@@ -404,5 +465,20 @@ void Sorting::compareElements(int firstIndex, int secondIndex) {
 void Sorting::endSort() {
     for (int i = 0; i < elements.size(); i++) {
         elements[i].second->setFillColor(sf::Color::Green);
+    }
+}
+
+void Sorting::updateAllPositions() {
+
+    for (int i = 0; i < elements.size(); i++) {
+        int currentData = rand() % heigth;
+
+        /*Atualiza posição*/
+        int elementWidth = width / elements.size();
+        sf::Vector2f position = elements[i].second->getPosition();
+        position.x = elementWidth * i;
+
+        elements[i].second->setPosition(position);
+
     }
 }

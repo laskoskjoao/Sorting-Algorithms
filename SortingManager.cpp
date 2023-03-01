@@ -7,6 +7,30 @@
 SortingManager::SortingManager (): window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "Sorting Algorithms") {
     sorting = new Sorting(WIDTH_WINDOW, HEIGHT_WINDOW);
     sort = std::thread(&Sorting::run, sorting);
+
+    /*Carregando fonte*/
+    sf::Font font;
+    if (!font.loadFromFile("arial.ttf"))
+    {
+        std::cout << "ERROR: Unable to initialize texts.";
+    }
+
+
+    /*Inicializando os textos*/
+
+    //swaps
+    swapsText.setFont(font); 
+    swapsText.setCharacterSize(12); 
+    swapsText.setFillColor(sf::Color::Red);
+
+    //comparisons
+    comparisonsText.setFont(font);
+    comparisonsText.setCharacterSize(12);
+    comparisonsText.setFillColor(sf::Color::Green);
+    sf::Vector2f positionComparisonsText = swapsText.getPosition();
+    positionComparisonsText.y += 12;
+    comparisonsText.setPosition(positionComparisonsText);
+
     menu();
 }
 
@@ -26,10 +50,12 @@ void SortingManager::menu() {
     std::cout << "\t0. Selection Sort\tO(n^2)" << std::endl;
     std::cout << "\t1. Bubble Sort\t\tO(n^2)" << std::endl;
     std::cout << "\t2. Insertion Sort\tO(n^2)" << std::endl;
-    std::cout << "\t3. My Sort\t\tO(n^2)" << std::endl;
-    std::cout << "\t4. Merge Sort\t\tO(n*logn)" << std::endl;
-    std::cout << "\t5. Quick Sort\t\tO(n*logn) - Average performance" << std::endl;
-    std::cout << "\t6. Counting Sort\tO(n)" << std::endl;
+    std::cout << "\t3. Swap Sort\t\tO(n^2)" << std::endl;
+    std::cout << "\t4. Shell Sort\t\tO(?)" << std::endl;
+    std::cout << "\t5. Merge Sort\t\tO(n*logn)" << std::endl;
+    std::cout << "\t6. Quick Sort\t\tO(n*logn) - Average performance" << std::endl;
+    std::cout << "\t7. Heap Sort\t\tO(n*logn)" << std::endl;
+    std::cout << "\t8. Counting Sort\tO(n)" << std::endl;
 
     std::cout << "\nInput: ";
 
@@ -108,6 +134,15 @@ void SortingManager::draw() {
     for (int i = 0; i < elements.size(); i++) {
         window.draw(*sorting->getElements()[i].second);
     }
+
+    if (!sorting->getEndSorting() && algorithm != Heap) {       //Nao exibe informacoes do Heap pois a estrutura heap utilizada no momento é da biblioteca STL, portanto nao sao obtidas informacoes de comparacoes e trocas na manipulação da estrutura
+        swapsText.setString("Swaps = " + std::to_string(sorting->getTotalSwaps()));
+        comparisonsText.setString("Comparisons = " + std::to_string(sorting->getTotalComparisons()));
+    }
+
+    window.draw(swapsText);         //desenha o texto que exibe informacoes de swaps
+    window.draw(comparisonsText);   //desenha o texto que exibe informacoes de comparisons
+
     window.display();
 }
 

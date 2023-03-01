@@ -27,6 +27,9 @@ private:
 	Algorithm algorithm;
 
 	Sorting* sorting;
+	sf::Text swapsText;
+	sf::Text comparisonsText;
+
 	/*Coleta de entradas*/
 	void menu();
 
