@@ -25,11 +25,11 @@ valor entre 1 - 400). Caso seja necessário, pode-se alterar o tamanho da janela
 
 ## :heavy_exclamation_mark: Observações
 
-No momento, o Heap Sort utiliza a estrutura de dados Heap fornecida pela biblioteca STL. Sendo assim, o algoritmo no processo de ordenação visual parece mais rápido que outros
-algoritmos n*logn, uma vez que não existem atrasos (como nos outros algoritmos implementados) em decorrência da comparação e swaps de elementos durante a manipulação da estrutura Heap. Além disso, por não possuírmos informações no número de trocas e comparações na manipulação da Heap, a opção da visualização dessas informações não fica disponível para esse algoritmo. 
+No momento, o Heap Sort utiliza a estrutura de dados Heap fornecida pela biblioteca STL. Sendo assim, o algoritmo no processo visual de ordenação parece mais rápido que outros
+algoritmos **n*logn**, uma vez que não existem atrasos (como nos outros algoritmos implementados) em decorrência da comparação e troca de elementos durante a manipulação da estrutura Heap. Além disso, por não possuírmos informações no número de trocas e comparações, a opção da visualização dessas informações não fica disponível para esse algoritmo. 
 Uma solução à ser implementada para esse problema é desenvolver a própria estrutura Heap e assim adicionar devidamente os atrasos.
 
-Ainda é necessário revisar corretamente se os cálculos do número de trocas e de comparações estão corretos para todos os algoritmos. Por isso no momento não é possível afirmar com clareza a consistência desses dados.
+Ainda é necessário revisar se os cálculos do número de trocas e de comparações estão corretos para todos os algoritmos. Por isso no momento não é possível afirmar com clareza a consistência desses dados.
 
 As pendências descritas nas observações acima estão marcadas para serem resolvidas nos próximos commits.
 
