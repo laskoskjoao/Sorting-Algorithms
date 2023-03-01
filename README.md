@@ -25,6 +25,16 @@ valor entre 1 - 400). Caso seja necessário, pode-se alterar o tamanho da janela
 
 Ao final da ordenação, o programa ainda exibe informações do processo: Número de trocas (swaps) e Número de comparações (comparisons), que no decorrer da ordenação são representados pelas cores vermelha e azul, respectivamente.
 
+## :heavy_exclamation_mark: Observações
+
+No momento, o Heap Sort utiliza a estrutura de dados Heap fornecida pela biblioteca STL. Sendo assim, o algoritmo no processo de ordenação visual parece mais rápido que outros
+algoritmos n*logn, uma vez que não existem atrasos (como nos outros algoritmos implementados) em decorrência da comparação e swaps de elementos durante a manipulação da estrutura Heap. Além disso, por não possuírmos informações no número de trocas e comparações na manipulação da Heap, a opção da visualização dessas informações não fica disponível para esse algoritmo. 
+Uma solução à ser implementada para esse problema é desenvolver a própria estrutura Heap e assim adicionar devidamente os atrasos.
+
+Ainda é necessário revisar corretamente se os cálculos do número de trocas e de comparações estão corretos para todos os algoritmos. Por isso no momento não é possível afirmar com clareza a consistência desses dados.
+
+As pendências descritas nas observações acima estão marcadas para serem resolvidas nos próximos commits.
+
 ## :question: Como testar
 
 O programa foi desenvolvido utilizando a biblioteca gráfica SFML 2.5.1 (versão 32 bits), portanto é necessário [baixá-la](https://www.sfml-dev.org/download/sfml/2.5.1/) e adicioná-la ao projeto para que seja possível depurar o programa. O processo para adicionar a biblioteca se encontra descrito detalhadamente no site da [biblioteca](https://www.sfml-dev.org/tutorials/2.5/#getting-started).
