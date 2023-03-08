@@ -24,7 +24,7 @@ There is a maximum number of elements to be sorted that depends on the width of 
 
 ## :heavy_exclamation_mark: Observations
 
-* Currently, Heap Sort uses the Heap data structure provided by the STL library. Therefore, the algorithm in the visual sorting process seems faster than others **n*logn** algorithms, since there are no delays (as in the other implemented algorithms) due to the comparison and exchange of elements during the manipulation of the Heap structure. Furthermore, as we do not have information on the number of swaps and comparisons, the option to view this information is not available for this algorithm.
+* Currently, Heap Sort uses the Heap data structure provided by the STL library. Therefore, the algorithm in the visual sorting process seems faster than others **n*logn** algorithms, since there are no delays (as in the other implemented algorithms) due to the comparison and swap of elements during the manipulation of the Heap structure. Furthermore, as we do not have information on the number of swaps and comparisons, the option to view this information is not available for this algorithm.
 A solution to be implemented for this problem is to develop the Heap structure itself and thus properly add the delays.
 
 * It is still necessary to review whether the calculations of the number of swaps and comparisons are correct for all algorithms. Therefore, at the moment, it is not possible to clearly state the consistency of these data.
